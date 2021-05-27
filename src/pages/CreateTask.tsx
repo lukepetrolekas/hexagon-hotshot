@@ -8,7 +8,6 @@ const CreateTask = () => {
         <Form.Group controlId="taskName">
           <Form.Label>Task Name</Form.Label>
           <Form.Control
-            type="email"
             placeholder="Select a distinctive name..."
           />
         </Form.Group>
@@ -22,9 +21,6 @@ const CreateTask = () => {
       </Form.Row>
 
       <Form.Group>
-        <Button variant="secondary" type="submit">
-          Save as Draft
-        </Button>
         <Button variant="primary" type="submit">
           Create
         </Button>
