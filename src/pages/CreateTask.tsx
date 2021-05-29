@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Button, Row, Col, Toast } from 'react-bootstrap';
+
+const { ipcRenderer } = require('electron');
 
 class CreateTask extends React.Component {
   constructor(props: any) {
@@ -28,10 +30,23 @@ class CreateTask extends React.Component {
     this.setState({ show: true });
     // clear out form
     // this.setState({ name: '', desc: '' });
+
+    // Synchronous message emmiter and handler
+    console.log(ipcRenderer.sendSync('synchronous-message', 'sync ping'));
+
+    // Async message handler
+    ipcRenderer.on('asynchronous-reply', (e, arg) => {
+      console.log(arg);
+    });
+
+    // Async message sender
+    ipcRenderer.send('asynchronous-message', 'async ping');
+
     event.preventDefault();
   }
 
   render() {
+    const { name, desc, show } = this.state;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -39,7 +54,7 @@ class CreateTask extends React.Component {
             <Form.Group controlId="taskName">
               <Form.Label>Task Name</Form.Label>
               <Form.Control
-                value={this.state.name}
+                value={name}
                 onChange={this.handleNameChange}
                 placeholder="Select a distinctive name..."
               />
@@ -50,7 +65,7 @@ class CreateTask extends React.Component {
             <Form.Group controlId="taskDescription">
               <Form.Label>Task Description</Form.Label>
               <Form.Control
-                value={this.state.desc}
+                value={desc}
                 onChange={this.handleDescChange}
                 placeholder="Describe how the task is actionable here..."
               />
@@ -67,7 +82,7 @@ class CreateTask extends React.Component {
           <Col xs={6}>
             <Toast
               onClose={() => this.setState({ show: false })}
-              show={this.state.show}
+              show={show}
               delay={3000}
               autohide
             >
@@ -75,7 +90,7 @@ class CreateTask extends React.Component {
                 <strong className="mr-auto">Bootstrap</strong>
                 <small>11 mins ago</small>
               </Toast.Header>
-              <Toast.Body>Task {this.state.name} has been added.</Toast.Body>
+              <Toast.Body>Task {name} has been added.</Toast.Body>
             </Toast>
           </Col>
         </Row>
