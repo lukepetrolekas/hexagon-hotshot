@@ -28,19 +28,18 @@ class CreateTask extends React.Component {
 
   handleSubmit(event: any) {
     this.setState({ show: true });
-    // clear out form
-    // this.setState({ name: '', desc: '' });
-
-    // Synchronous message emmiter and handler
-    console.log(ipcRenderer.sendSync('synchronous-message', 'sync ping'));
 
     // Async message handler
-    ipcRenderer.on('asynchronous-reply', (e, arg) => {
-      console.log(arg);
+    ipcRenderer.on('add-task', (e, arg) => {
+      // clear out form
+      this.setState({ name: '', desc: '' });
     });
 
     // Async message sender
-    ipcRenderer.send('asynchronous-message', 'async ping');
+    ipcRenderer.send('add-task', {
+      name: this.state.name,
+      description: this.state.desc,
+    });
 
     event.preventDefault();
   }
