@@ -6,14 +6,18 @@ import './App.global.css';
 
 import Navigation from './organisms/Nav';
 import CreateTask from './pages/CreateTask';
+import Stack from './pages/Stack';
+import Home from './pages/Home';
 
 export default function App() {
   return (
     <Container fluid>
-      <Navigation />
       <Router>
+        <Navigation />
         <Switch>
-          <Route path="/" component={CreateTask} />
+          <Route exact path="/" component={Home} />
+          <Route path="/create" component={CreateTask} />
+          <Route path="/stack" component={Stack} />
         </Switch>
       </Router>
     </Container>
