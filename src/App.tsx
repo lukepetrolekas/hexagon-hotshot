@@ -15,9 +15,9 @@ export default function App() {
       <Router>
         <Navigation />
         <Switch>
-          <Route exact path="/" component={Home} />
           <Route path="/create" component={CreateTask} />
           <Route path="/stack" component={Stack} />
+          <Route path="/" component={Home} />
         </Switch>
       </Router>
     </Container>
